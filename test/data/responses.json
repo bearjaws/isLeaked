@@ -1,0 +1,31 @@
+{
+    "should return owasp validation": { "errors":
+       [ "The password must be at least 10 characters long.",
+         "The password must contain at least one uppercase letter.",
+         "The password must contain at least one number.",
+         "The password must contain at least one special character.",
+         "The password has been leaked,  making it extremely insecure." ],
+      "failedTests": [ 0, 4, 5, 6 ],
+      "passedTests": [ 1, 2, 3 ],
+      "requiredTestErrors":
+       [ "The password must be at least 10 characters long.",
+         "The password has been leaked,  making it extremely insecure." ],
+      "optionalTestErrors":
+       [ "The password must contain at least one uppercase letter.",
+         "The password must contain at least one number.",
+         "The password must contain at least one special character." ],
+      "isPassphrase": false,
+      "strong": false,
+      "optionalTestsPassed": 1
+  },
+      "A day may come": {
+           "errors": [],
+           "failedTests": [],
+           "passedTests": [ 0, 1, 2 ],
+           "requiredTestErrors": [],
+           "optionalTestErrors": [],
+           "isPassphrase": true,
+           "strong": true,
+           "optionalTestsPassed": 0
+       }
+}

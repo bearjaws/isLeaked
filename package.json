@@ -1,0 +1,36 @@
+{
+  "name": "isLeaked",
+  "version": "0.1.0",
+  "description": "Client module for checking if a user password is available in password dictionary",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bearjaws/isLeaked.git"
+  },
+  "keywords": [
+    "known",
+    "password",
+    "leaked",
+    "check",
+    "for",
+    "leaked",
+    "password"
+  ],
+  "author": "Michael Bearjaws <michael.a.barajas@gmail.com>",
+  "license": "APL",
+  "bugs": {
+    "url": "https://github.com/bearjaws/known-passwords/issues"
+  },
+  "homepage": "https://github.com/bearjaws/known-passwords",
+  "dependencies": {
+    "bluebird": "^2.10.2",
+    "request": "^2.65.0"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^2.3.3"
+  }
+}

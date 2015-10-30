@@ -1,0 +1,7 @@
+{
+    "servers": [{
+            "ip": "http://localhost:8000",
+            "weight": 1,
+            "active": true
+        }]
+}
