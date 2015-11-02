@@ -2,10 +2,11 @@ var bluebird = require('bluebird');
 var request = require('request');
 
 function IsLeaked(servers, owaspConfig) {
+    //@TODO add joi validation of these objects
     if (typeof servers === 'object' && servers !== null) {
         this.servers = servers;
     } else {
-        this.servers = require('./servers.json').servers;
+        this.servers = require('./servers.json');
     }
 
     if (typeof owaspConfig === 'object' && owaspConfig !== null) {
@@ -45,18 +46,22 @@ IsLeaked.prototype.getWeightedServer = function() {
  * @param  {Function} cb       Ca;; back function(err, result)
  */
 IsLeaked.prototype.isLeakedPassword = function(password, cb) {
-    return request({
-        url: this.getWeightedServer() + "/password/isLeaked",
-        method: "POST",
-        json: true,
-        body: { password: password }
-    }, function(err, res, body) {
-        if (res.statusCode !== 200) {
-            return cb(body, null);
-        }
+    var self = this;
 
-        return cb(null, body.isLeaked === true);
-    });
+    return new bluebird(function(resolve, reject) {
+        return request({
+            url: self.getWeightedServer() + "/password/isLeaked",
+            method: "POST",
+            json: true,
+            body: { password: password }
+        }, function(err, res, body) {
+            if (res.statusCode !== 200) {
+                reject(body);
+            }
+            resolve(body.isLeaked === true);
+        });
+    }).asCallback(cb);
+
 }
 
 /**
@@ -67,6 +72,7 @@ IsLeaked.prototype.isLeakedPassword = function(password, cb) {
  *                                https://www.npmjs.com/package/owasp-password-strength-test
  */
 IsLeaked.prototype.testPassword = function(password, cb) {
+    var self = this;
     var body = {
         password: password
     }
@@ -75,17 +81,19 @@ IsLeaked.prototype.testPassword = function(password, cb) {
         body.config = this.owaspConfig;
     }
 
-    return request({
-        url: this.getWeightedServer() + "/password/test",
-        method: "POST",
-        json: true,
-        body: body
-    }, function(err, res, body) {
-        if (res.statusCode !== 200) {
-            return cb(body, null);
-        }
-        return cb(null, body);
-    });
+    return new bluebird(function(resolve, reject) {
+        return request({
+            url: self.getWeightedServer() + "/password/test",
+            method: "POST",
+            json: true,
+            body: body
+        }, function(err, res, body) {
+            if (res.statusCode !== 200) {
+                reject(body);
+            }
+            resolve(body);
+        });
+    }).asCallback(cb);
 }
 
 module.exports = IsLeaked;
