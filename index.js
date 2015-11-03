@@ -112,7 +112,7 @@ IsLeaked.prototype.testPassword = function(password, cb) {
 
     return new bluebird(function(resolve, reject) {
         return request({
-            url: host + "/password/test",
+            url: host + "/password/isSecure",
             method: "POST",
             json: true,
             body: body
