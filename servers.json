@@ -1,5 +1,5 @@
 [{
-        "ip": "http://localhost:8000",
+        "host": "http://localhost:9455",
         "weight": 1,
         "active": true
 }]

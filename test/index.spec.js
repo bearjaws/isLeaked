@@ -1,4 +1,5 @@
 var isLeakedClient = require('../index.js');
+var fs = require('fs');
 var client = new isLeakedClient();
 var expect = require('expect.js');
 var responses = require('./data/responses.json');
@@ -16,11 +17,33 @@ describe('IsLeakedClient', function() {
             return client.isLeakedPassword("asdfgh").then(function(isLeaked) {
                 expect(isLeaked).to.eql(true);
                 done();
-            });
+            }).catch(function(err) {
+                done(err);
+            });;
         });
 
         it('should return false for a password that has not been leaked', function (done) {
             client.isLeakedPassword("this password is really unique, maybe", function(err, isLeaked) {
+                expect(err).to.equal(null);
+                expect(isLeaked).to.eql(false);
+                done();
+            });
+        });
+
+        it('should automatically switch to different server if conn fails', function (done) {
+            var servers = [{
+                    "host": "http://localhost:1133",
+                    "weight": 1,
+                    "active": true
+            }, {
+                    "host": "http://localhost:9455",
+                    "weight": 1,
+                    "active": true
+            }];
+
+            var client = new isLeakedClient(servers);
+
+            client.isLeakedPassword("this password is special", function(err, isLeaked) {
                 expect(err).to.equal(null);
                 expect(isLeaked).to.eql(false);
                 done();
@@ -41,6 +64,8 @@ describe('IsLeakedClient', function() {
             return client.testPassword("Promis3s please.").then(function(body) {
                 expect(body).to.eql(responses['promises please']);
                 done();
+            }).catch(function(err) {
+                done(err);
             });
         });
 

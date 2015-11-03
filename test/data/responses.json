@@ -1,32 +1,134 @@
 {
-    "should return owasp validation": { "errors":
-       [ "The password must be at least 10 characters long.",
-         "The password must contain at least one uppercase letter.",
-         "The password must contain at least one number.",
-         "The password must contain at least one special character.",
-         "The password has been leaked,  making it extremely insecure." ],
-      "failedTests": [ 0, 4, 5, 6 ],
-      "passedTests": [ 1, 2, 3 ],
-      "requiredTestErrors":
-       [ "The password must be at least 10 characters long.",
-         "The password has been leaked,  making it extremely insecure." ],
-      "optionalTestErrors":
-       [ "The password must contain at least one uppercase letter.",
-         "The password must contain at least one number.",
-         "The password must contain at least one special character." ],
-      "isPassphrase": false,
-      "strong": false,
-      "optionalTestsPassed": 1
-  },
+    "should return owasp validation": {
+        "errors": [
+            "The password must be at least 10 characters long.",
+            "The password must contain at least one uppercase letter.",
+            "The password must contain at least one number.",
+            "The password must contain at least one special character.",
+            "The password has been leaked, making it extremely insecure."
+        ],
+        "failedTests": [
+            0,
+            4,
+            5,
+            6
+        ],
+        "passedTests": [
+            1,
+            2,
+            3
+        ],
+        "requiredTestErrors": [
+            "The password must be at least 10 characters long.",
+            "The password has been leaked, making it extremely insecure."
+        ],
+        "optionalTestErrors": [
+            "The password must contain at least one uppercase letter.",
+            "The password must contain at least one number.",
+            "The password must contain at least one special character."
+        ],
+        "isPassphrase": false,
+        "strong": false,
+        "optionalTestsPassed": 1,
+        "isLeaked": true,
+        "similarPasswords": [
+            {
+                "password": "ASDFGH",
+                "similarity": 1
+            },
+            {
+                "password": "'ASDFGH",
+                "similarity": 0.9090909090909091
+            },
+            {
+                "password": "ASDFGH?",
+                "similarity": 0.9090909090909091
+            },
+            {
+                "password": "ASDFGH;",
+                "similarity": 0.9090909090909091
+            },
+            {
+                "password": "ASDFGHS",
+                "similarity": 0.9090909090909091
+            },
+            {
+                "password": "ASDFGH!",
+                "similarity": 0.9090909090909091
+            },
+            {
+                "password": "ASDFGH.",
+                "similarity": 0.9090909090909091
+            },
+            {
+                "password": "ASDFGH,",
+                "similarity": 0.9090909090909091
+            },
+            {
+                "password": "ASDFGH*",
+                "similarity": 0.9090909090909091
+            },
+            {
+                "password": "ASDFGH!1",
+                "similarity": 0.8333333333333334
+            },
+            {
+                "password": "3#ASDFGH",
+                "similarity": 0.8333333333333334
+            },
+            {
+                "password": "ASDFGH=1",
+                "similarity": 0.8333333333333334
+            },
+            {
+                "password": "4SDFGH",
+                "similarity": 0.8
+            },
+            {
+                "password": "ASDFGH!1A",
+                "similarity": 0.7692307692307693
+            },
+            {
+                "password": "ASDFGH!@34",
+                "similarity": 0.7142857142857143
+            },
+            {
+                "password": "ASDFGH-JKL",
+                "similarity": 0.7142857142857143
+            },
+            {
+                "password": "ASDFGH=-09",
+                "similarity": 0.7142857142857143
+            },
+            {
+                "password": "ASDFGH!2#4%6",
+                "similarity": 0.625
+            },
+            {
+                "password": "ASDF6H",
+                "similarity": 0.6
+            },
+            {
+                "password": "ASDFGH(SER)20//",
+                "similarity": 0.5263157894736842
+            }
+        ]
+    },
     "A day may come": {
         "errors": [],
         "failedTests": [],
-        "passedTests": [ 0, 1, 2 ],
+        "passedTests": [
+            0,
+            1,
+            2
+        ],
         "requiredTestErrors": [],
         "optionalTestErrors": [],
         "isPassphrase": true,
         "strong": true,
-        "optionalTestsPassed": 0
+        "optionalTestsPassed": 0,
+        "isLeaked": false,
+        "similarPasswords": []
     },
     "promises please": {
         "errors": [],
@@ -36,6 +138,8 @@
         "optionalTestErrors": [],
         "isPassphrase": false,
         "strong": true,
-        "optionalTestsPassed": 4
+        "optionalTestsPassed": 4,
+        "isLeaked": false,
+        "similarPasswords": []
     }
 }
