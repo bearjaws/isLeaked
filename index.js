@@ -92,14 +92,13 @@ IsLeaked.prototype.isLeakedPassword = function(password, cb) {
 }
 
 /**
- * Tests the password against OWASP and isLeaked, allowing you to consolidate your password verification
- * You can check if a password is `safe` by reading the `strong` property from the response.
+ * Tests the password against isSecure route.
+ * This will return if the password or if any of its mutations have been leaked.
+ * Additionally returns an array of similar passwords if available.
  * @param  {string}   password The password to verify against isLeaked
- * @param  {[object]}   owaspConfig OWASP config as defined at https://www.npmjs.com/package/owasp-password-strength-test
- * @param  {Function} cb   callback function (err, body), where body is the type returned at
- *                                https://www.npmjs.com/package/owasp-password-strength-test
+ * @param  {Function} cb   callback function (err, body)
  */
-IsLeaked.prototype.testPassword = function(password, cb) {
+IsLeaked.prototype.isSecurePassword = function(password, cb) {
     var self = this;
     var host = self.getWeightedServer();
     var body = {
@@ -113,6 +112,44 @@ IsLeaked.prototype.testPassword = function(password, cb) {
     return new bluebird(function(resolve, reject) {
         return request({
             url: host + "/password/isSecure",
+            method: "POST",
+            json: true,
+            body: body
+        }, function(err, res, body) {
+            if (err && self.errors.indexOf(err.code) !== -1) {
+                setInactiveAndReset(host, self.servers);
+                return self.testPassword(password, cb);
+            }
+
+            if (res.statusCode !== 200) {
+                reject(body);
+            }
+            resolve(body);
+        });
+    }).asCallback(cb);
+}
+
+/**
+ * Tests the password against OWASP and isLeaked, allowing you to consolidate your password verification
+ * You can check if a password is `safe` by reading the `strong` property from the response.
+ * @param  {string}   password The password to verify against isLeaked
+ * @param  {Function} cb   callback function (err, body), where body is the type returned at
+ *                                https://www.npmjs.com/package/owasp-password-strength-test
+ */
+IsLeaked.prototype.owaspCheckPassword = function(password, cb) {
+    var self = this;
+    var host = self.getWeightedServer();
+    var body = {
+        password: password
+    }
+
+    if(this.owaspConfig !== null) {
+        body.config = this.owaspConfig;
+    }
+
+    return new bluebird(function(resolve, reject) {
+        return request({
+            url: host + "/password/owasp",
             method: "POST",
             json: true,
             body: body

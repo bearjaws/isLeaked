@@ -3,6 +3,7 @@ var fs = require('fs');
 var client = new isLeakedClient();
 var expect = require('expect.js');
 var responses = require('./data/responses.json');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 describe('IsLeakedClient', function() {
     describe('isLeaked()', function () {
         it('should return true for a password that has been leaked', function (done) {
@@ -36,7 +37,7 @@ describe('IsLeakedClient', function() {
                     "weight": 1,
                     "active": true
             }, {
-                    "host": "http://localhost:9455",
+                    "host": "https://localhost:9455",
                     "weight": 1,
                     "active": true
             }];
@@ -51,9 +52,9 @@ describe('IsLeakedClient', function() {
         });
     });
 
-    describe('testPassword()', function () {
+    describe('owaspCheckPassword()', function () {
         it('should pass owasp validation for a secure passphrase', function (done) {
-            client.testPassword("A day may come when the courage of men fails", function(err, body) {
+            client.owaspCheckPassword("A day may come when the courage of men fails", function(err, body) {
                 expect(body).to.eql(responses['A day may come']);
                 expect(err).to.be.equal(null);
                 done();
@@ -61,7 +62,7 @@ describe('IsLeakedClient', function() {
         });
 
         it('should be able to call testPassword() using promises', function (done) {
-            return client.testPassword("Promis3s please.").then(function(body) {
+            return client.owaspCheckPassword("Promis3s please.").then(function(body) {
                 expect(body).to.eql(responses['promises please']);
                 done();
             }).catch(function(err) {
@@ -70,7 +71,7 @@ describe('IsLeakedClient', function() {
         });
 
         it('should fail owasp validation for a poor password', function (done) {
-            client.testPassword("asdfgh", function(err, body) {
+            client.owaspCheckPassword("asdfgh", function(err, body) {
                 expect(body).to.eql(responses['should return owasp validation']);
                 expect(err).to.be.equal(null);
                 done();

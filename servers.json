@@ -1,5 +1,9 @@
 [{
-        "host": "http://localhost:9455",
-        "weight": 1,
+        "host": "http://localhost:8005",
+        "weight": 0.5,
+        "active": true
+}, {
+        "host": "https://isLeaked.io:9455",
+        "weight": 0.5,
         "active": true
 }]
